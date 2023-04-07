@@ -5,6 +5,7 @@ const sequelize = new Sequelize("players", "sa", "kandari", {
   dialect: "mssql",
   host: "localhost",
   port: 1433,
+  // logging: false, //  will not log any query on console
   pool: { max: 5, min: 0, idle: 10000 },
 });
 
@@ -21,9 +22,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require("./users")(sequelize, DataTypes);
-
 //db.sequelize.sync({ force: true,match:/players$/ })           will delete table and create new table every time,and check condition
 db.sequelize.sync().then(() => {
   console.log("sync db");
 });
+
+db.users = require("./users")(sequelize, DataTypes);
+module.exports = db;
