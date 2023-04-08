@@ -16,4 +16,42 @@ var addUser = async (req, res) => {
 
   res.status(200).json(response);
 };
-module.exports = { addUser };
+
+var crudOperation = async (req, res) => {
+  // insert
+
+  // let data = await Users.create({
+  //   name: "rahul",
+  //   email: "gmail",
+  //   gender: "male",
+  // });
+  // console.log(data.id);
+
+  //bulk create
+
+  // let data = await Users.bulkCreate([
+  //   { name: "rk6", email: "aa6", gender: "male" },
+  //   { name: "rk7", email: "aa7", gender: "male" },
+  //   { name: "rk8", email: "aa8", gender: "male" },
+  // ]);
+
+  // find
+  // let data=await Users.findOne({});
+  let data = await Users.findAll({});
+  // update
+
+  // let data = await Users.update(
+  //   { email: "@gamail" },
+  //   { where: { name: "rk3" } }
+  // );
+
+  //delete
+  // let data = await Users.destroy({ where: { id: 2 } });
+
+  let response = {
+    data: data,
+  };
+
+  res.status(200).json(response);
+};
+module.exports = { addUser, crudOperation };
