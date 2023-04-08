@@ -11,6 +11,7 @@ app.get("/", (req, res) => {
 app.get("/add", userController.addUser);
 app.get("/crud", userController.crudOperation);
 app.get("/query", userController.query);
+app.get("/setterGetter", userController.setterGetter);
 
 app.listen(port, () => {
   console.log(` app is listening at http://localhost:${port}`);

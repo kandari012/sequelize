@@ -93,4 +93,16 @@ var query = async (req, res) => {
 
   res.status(200).json(response);
 };
-module.exports = { addUser, crudOperation, query };
+
+var setterGetter = async (req, res) => {
+  // finders from docs
+
+  // let data = await Users.create({ name: "vikas", email: "aa", gender: "male" });
+  let data = await Users.findAll({});
+  let response = {
+    data: data,
+  };
+
+  res.status(200).json(response);
+};
+module.exports = { addUser, crudOperation, query, setterGetter };
