@@ -1,5 +1,6 @@
 const db = require("../models");
 const Users = db.users;
+const Posts = db.posts;
 const { Sequelize, Op } = require("sequelize");
 
 var addUser = async (req, res) => {
@@ -105,4 +106,35 @@ var setterGetter = async (req, res) => {
 
   res.status(200).json(response);
 };
-module.exports = { addUser, crudOperation, query, setterGetter };
+
+var oneToOne = async (req, res) => {
+  let data = await Users.findAll({
+    attributes: ["email", "name", "user_id"],
+    //left outer join
+    include: [
+      {
+        model: Posts,
+        as: "postDetails",
+        attributes: ["title", "name"],
+      },
+    ],
+    where: { user_id: 2 },
+  });
+
+  // get all user belong to post
+  let data2 = await Posts.findAll({
+    //left outer join
+    include: [
+      {
+        model: Users,
+      },
+    ],
+  });
+
+  let response = {
+    data: data2,
+  };
+
+  res.status(200).json(response);
+};
+module.exports = { addUser, crudOperation, query, setterGetter, oneToOne };
