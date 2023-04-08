@@ -14,6 +14,7 @@ app.get("/query", userController.query);
 app.get("/setterGetter", userController.setterGetter);
 app.get("/oneToOne", userController.oneToOne);
 app.get("/oneToMany", userController.oneToMany);
+app.get("/manyToMany", userController.manyToMany);
 
 app.listen(port, () => {
   console.log(` app is listening at http://localhost:${port}`);

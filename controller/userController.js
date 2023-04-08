@@ -1,6 +1,8 @@
 const db = require("../models");
 const Users = db.users;
 const Posts = db.posts;
+const Tags = db.tags;
+const Post_Tags = db.post_tags;
 const { Sequelize, Op } = require("sequelize");
 
 var addUser = async (req, res) => {
@@ -157,6 +159,31 @@ var oneToMany = async (req, res) => {
 
   res.status(200).json(response);
 };
+
+var manyToMany = async (req, res) => {
+  let data = await Posts.findAll({
+    //left outer join
+    include: [
+      {
+        model: Tags,
+      },
+    ],
+  });
+
+  let data2 = await Tags.findAll({
+    //left outer join
+    include: [
+      {
+        model: Posts,
+      },
+    ],
+  });
+  let response = {
+    data: data2,
+  };
+
+  res.status(200).json(response);
+};
 module.exports = {
   addUser,
   crudOperation,
@@ -164,4 +191,5 @@ module.exports = {
   setterGetter,
   oneToOne,
   oneToMany,
+  manyToMany,
 };

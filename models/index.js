@@ -29,8 +29,15 @@ db.sequelize.sync().then(() => {
 
 db.users = require("./users")(sequelize, DataTypes);
 db.posts = require("./posts")(sequelize, DataTypes);
+db.tags = require("./tags")(sequelize, DataTypes);
+db.post_tags = require("./post_tags")(sequelize, DataTypes);
 
 // db.users.hasOne(db.posts, { foreignKey: "user_id", as: "postDetails" }); //userId
 db.users.hasMany(db.posts, { foreignKey: "user_id", as: "postDetails" }); //userId
 db.posts.belongsTo(db.users, { foreignKey: "user_id" });
+
+// many to many
+db.posts.belongsToMany(db.tags, { through: "post_tag" });
+db.tags.belongsToMany(db.posts, { through: "post_tag" });
+
 module.exports = db;
