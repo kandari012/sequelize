@@ -137,4 +137,31 @@ var oneToOne = async (req, res) => {
 
   res.status(200).json(response);
 };
-module.exports = { addUser, crudOperation, query, setterGetter, oneToOne };
+
+var oneToMany = async (req, res) => {
+  let data = await Users.findAll({
+    attributes: ["email", "name", "user_id"],
+    //left outer join
+    include: [
+      {
+        model: Posts,
+        as: "postDetails",
+        attributes: ["title", "name"],
+      },
+    ],
+  });
+
+  let response = {
+    data: data,
+  };
+
+  res.status(200).json(response);
+};
+module.exports = {
+  addUser,
+  crudOperation,
+  query,
+  setterGetter,
+  oneToOne,
+  oneToMany,
+};
