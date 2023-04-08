@@ -1,5 +1,6 @@
 const db = require("../models");
 const Users = db.users;
+const { Sequelize, Op } = require("sequelize");
 
 var addUser = async (req, res) => {
   let data = await Users.create({ name: "rk", email: "aa", gender: "male" });
@@ -27,6 +28,12 @@ var crudOperation = async (req, res) => {
   // });
   // console.log(data.id);
 
+  // will insert only name and gender
+  // let data = await Users.create(
+  //   { name: "rk", email: "aa", gender: "male" },
+  //   { fields: ["name", "gender"] }
+  // );
+
   //bulk create
 
   // let data = await Users.bulkCreate([
@@ -37,7 +44,7 @@ var crudOperation = async (req, res) => {
 
   // find
   // let data=await Users.findOne({});
-  let data = await Users.findAll({});
+  // let data = await Users.findAll({});
   // update
 
   // let data = await Users.update(
@@ -54,4 +61,36 @@ var crudOperation = async (req, res) => {
 
   res.status(200).json(response);
 };
-module.exports = { addUser, crudOperation };
+//  attributes will only give perticular field
+var query = async (req, res) => {
+  //
+  // let data = await Users.findAll({
+  //   attributes: [
+  //     "name",
+  //     ["email", "emailID"],
+  //     // [Sequelize.fn("CONCAT", Sequelize.col("email")), "emailCount"],
+  //   ],
+  // });
+
+  let data = await Users.findAll({
+    where: {
+      id: { [Op.gt]: 1 },
+    },
+    order: [["name", "DESC"]], // order by
+    // group: ["email"],
+    limit: 2, // limit
+    offset: 1, //skip first 1
+  });
+
+  // will exclude fields
+  // let data = await Users.findAll({
+  //   attributes: { exclude: ["createdAt", "email"] },
+  // });
+
+  let response = {
+    data: data,
+  };
+
+  res.status(200).json(response);
+};
+module.exports = { addUser, crudOperation, query };

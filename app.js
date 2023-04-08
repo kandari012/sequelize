@@ -10,6 +10,7 @@ app.get("/", (req, res) => {
 });
 app.get("/add", userController.addUser);
 app.get("/crud", userController.crudOperation);
+app.get("/query", userController.query);
 
 app.listen(port, () => {
   console.log(` app is listening at http://localhost:${port}`);
