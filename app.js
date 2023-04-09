@@ -17,6 +17,7 @@ app.get("/oneToMany", userController.oneToMany);
 app.get("/manyToMany", userController.manyToMany);
 app.get("/polymorphicOneToMany", userController.polymorphicOneToMany);
 app.get("/scope", userController.scope);
+app.get("/polymorphicManyToMany", userController.polymorphicManyToMany);
 
 app.listen(port, () => {
   console.log(` app is listening at http://localhost:${port}`);

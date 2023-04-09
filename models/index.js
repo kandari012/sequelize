@@ -81,6 +81,69 @@ db.comment.belongsTo(db.image, {
 db.comment.belongsTo(db.video, {
   foreignKey: "commentableId",
   constraints: false,
+  scope: {
+    commentableType: "video",
+  },
+});
+
+//--------------------polymorphic many to many----------------------------------------
+
+//  video,image,tag,tag_taggable
+db.tag_taggable = require("./tag_taggable")(sequelize, DataTypes);
+
+// --------------------image to tag----------------------
+db.image.belongsToMany(db.tags, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+    scope: {
+      taggableType: "image",
+    },
+  },
+  foreignKey: "taggableId",
+  constraints: false,
+});
+
+//------------------------tag to image-----------------------------------
+
+db.tags.belongsToMany(db.image, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+    scope: {
+      taggableType: "image",
+    },
+  },
+  foreignKey: "tagId",
+  constraints: false,
+});
+
+//--------------------------video to tag-----------------------------------
+
+db.video.belongsToMany(db.tags, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+    scope: {
+      taggableType: "video",
+    },
+  },
+  foreignKey: "taggableId",
+  constraints: false,
+});
+
+//-----------------------------tag to video ---------------------------------
+
+db.tags.belongsToMany(db.video, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+    scope: {
+      taggableType: "video",
+    },
+  },
+  foreignKey: "tagId",
+  constraints: false,
 });
 
 module.exports = db;
