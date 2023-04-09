@@ -32,9 +32,20 @@ db.posts = require("./posts")(sequelize, DataTypes);
 db.tags = require("./tags")(sequelize, DataTypes);
 db.post_tags = require("./post_tags")(sequelize, DataTypes);
 
+//===----------------------------scope-----------------------------------------------------
+db.users.addScope("includePost", {
+  include: {
+    model: db.posts,
+    as: "postDetails",
+  },
+});
+db.users.addScope("selectUser", {
+  attributes: ["name"],
+});
+
 // db.users.hasOne(db.posts, { foreignKey: "user_id", as: "postDetails" }); //userId
 db.users.hasMany(db.posts, { foreignKey: "user_id", as: "postDetails" }); //userId
-db.posts.belongsTo(db.users, { foreignKey: "user_id" });
+db.posts.belongsTo(db.users.scope("selectUser"), { foreignKey: "user_id" });
 
 // many to many
 db.posts.belongsToMany(db.tags, { through: "post_tag" });

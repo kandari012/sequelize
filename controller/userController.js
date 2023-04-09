@@ -221,6 +221,21 @@ var polymorphicOneToMany = async (req, res) => {
 
   res.status(200).json(response);
 };
+
+var scope = async (req, res) => {
+  //reusable code
+  // can apply multiple sope
+
+  // let data = await Users.scope(["includePost", "selectUser"]).findAll({});
+  let data = await Posts.findAll({
+    include: [Users],
+  });
+  let response = {
+    data: data,
+  };
+
+  res.status(200).json(response);
+};
 module.exports = {
   addUser,
   crudOperation,
@@ -230,4 +245,5 @@ module.exports = {
   oneToMany,
   manyToMany,
   polymorphicOneToMany,
+  scope,
 };
