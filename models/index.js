@@ -40,4 +40,36 @@ db.posts.belongsTo(db.users, { foreignKey: "user_id" });
 db.posts.belongsToMany(db.tags, { through: "post_tag" });
 db.tags.belongsToMany(db.posts, { through: "post_tag" });
 
+//-------------------------one to many polymorphic----------------------------------
+
+db.video = require("./video")(sequelize, DataTypes);
+db.image = require("./image")(sequelize, DataTypes);
+db.comment = require("./comment")(sequelize, DataTypes);
+
+db.image.hasMany(db.comment, {
+  foreignKey: "commentableId",
+  constraints: false,
+  scope: {
+    commentableType: "image",
+  },
+});
+
+db.video.hasMany(db.comment, {
+  foreignKey: "commentableId",
+  constraints: false,
+  scope: {
+    commentableType: "video",
+  },
+});
+
+db.comment.belongsTo(db.image, {
+  foreignKey: "commentableId",
+  constraints: false,
+});
+
+db.comment.belongsTo(db.video, {
+  foreignKey: "commentableId",
+  constraints: false,
+});
+
 module.exports = db;

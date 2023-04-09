@@ -3,6 +3,9 @@ const Users = db.users;
 const Posts = db.posts;
 const Tags = db.tags;
 const Post_Tags = db.post_tags;
+const Image = db.image;
+const Video = db.video;
+const Comment = db.comment;
 const { Sequelize, Op } = require("sequelize");
 
 var addUser = async (req, res) => {
@@ -184,6 +187,40 @@ var manyToMany = async (req, res) => {
 
   res.status(200).json(response);
 };
+
+var polymorphicOneToMany = async (req, res) => {
+  // image to comment----
+  let data = await Image.findAll({
+    //left outer join
+    include: [
+      {
+        model: Comment,
+      },
+    ],
+  });
+
+  // video to comment----
+  let data2 = await Video.findAll({
+    //left outer join
+    include: [
+      {
+        model: Comment,
+      },
+    ],
+  });
+
+  // comment to video----
+  let data3 = await Comment.findAll({
+    //left outer join
+    include: [Video],
+  });
+
+  let response = {
+    data: data3,
+  };
+
+  res.status(200).json(response);
+};
 module.exports = {
   addUser,
   crudOperation,
@@ -192,4 +229,5 @@ module.exports = {
   oneToOne,
   oneToMany,
   manyToMany,
+  polymorphicOneToMany,
 };
