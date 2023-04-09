@@ -81,9 +81,6 @@ db.comment.belongsTo(db.image, {
 db.comment.belongsTo(db.video, {
   foreignKey: "commentableId",
   constraints: false,
-  scope: {
-    commentableType: "video",
-  },
 });
 
 //--------------------polymorphic many to many----------------------------------------

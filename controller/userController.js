@@ -191,24 +191,24 @@ var manyToMany = async (req, res) => {
 
 var polymorphicOneToMany = async (req, res) => {
   // image to comment----
-  // let data = await Image.findAll({
-  //   //left outer join
-  //   include: [
-  //     {
-  //       model: Comment,
-  //     },
-  //   ],
-  // });
+  let data = await Image.findAll({
+    //left outer join
+    include: [
+      {
+        model: Comment,
+      },
+    ],
+  });
 
   // video to comment----
-  // let data2 = await Video.findAll({
-  //   //left outer join
-  //   include: [
-  //     {
-  //       model: Comment,
-  //     },
-  //   ],
-  // });
+  let data2 = await Video.findAll({
+    //left outer join
+    include: [
+      {
+        model: Comment,
+      },
+    ],
+  });
 
   // comment to video----
   let data3 = await Comment.findAll({
