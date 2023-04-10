@@ -15,3 +15,5 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Student;
 };
+
+//paranoid and soft copy and transaction, hooks,query interface,migration,seeders
