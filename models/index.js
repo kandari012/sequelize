@@ -31,6 +31,7 @@ db.users = require("./users")(sequelize, DataTypes);
 db.posts = require("./posts")(sequelize, DataTypes);
 db.tags = require("./tags")(sequelize, DataTypes);
 db.post_tags = require("./post_tags")(sequelize, DataTypes);
+db.student = require("./student")(sequelize, DataTypes);
 
 //===----------------------------scope-----------------------------------------------------
 db.users.addScope("includePost", {
