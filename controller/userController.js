@@ -254,6 +254,28 @@ var polymorphicManyToMany = async (req, res) => {
 
   res.status(200).json(response);
 };
+
+var loading = async (req, res) => {
+  //lazy loading
+  // let data = await Users.findAll({
+  //   where: { id: 2 },
+  // });
+  // let posts = await data.getPosts();
+
+  //eager loading
+
+  let data = await Users.findAll({
+    where: { id: 2 },
+    include: [{ model: Posts, as: "postDetails" }],
+  });
+
+  let response = {
+    data: data,
+  };
+
+  res.status(200).json(response);
+};
+
 module.exports = {
   addUser,
   crudOperation,
@@ -265,4 +287,5 @@ module.exports = {
   polymorphicOneToMany,
   scope,
   polymorphicManyToMany,
+  loading,
 };
